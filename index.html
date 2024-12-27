@@ -9,11 +9,19 @@
 <body>
     <div class="container">
         <h1>Click to Gain Money Game</h1>
-        <button id="clickButton">Click Me!</button>
-        <p>Money: <span id="money">0</span></p>
-        <p>Multiplier: <span id="multiplier">1</span></p>
-        <button id="upgradeButton">Buy Upgrade (Cost: 10)</button>
-        <button id="rankUpButton">Rank Up (Cost: 100)</button>
+        <input type="text" id="username" placeholder="Enter your username">
+        <button id="startGameButton">Start Game</button>
+        <div id="gameContainer" style="display: none;">
+            <button id="clickButton">Click Me!</button>
+            <p>Money: <span id="money">0</span></p>
+            <p>Multiplier: <span id="multiplier">1</span></p>
+            <button id="upgradeButton">Buy Upgrade (Cost: 10)</button>
+            <button id="rankUpButton">Rank Up (Cost: 500)</button>
+        </div>
+        <div>
+            <h2>Leaderboard</h2>
+            <ul id="leaderboard"></ul>
+        </div>
     </div>
     <footer>
         <p>Game made by ! Beamed</p>
