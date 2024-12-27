@@ -1,7 +1,7 @@
 let money = 0;
 let multiplier = 1;
 let upgradeCost = 10;
-let rankUpCost = 500;
+let rankUpCost = 350;
 let username = '';
 
 const moneyElement = document.getElementById('money');
@@ -118,7 +118,7 @@ upgradeButton.addEventListener('click', () => {
 rankUpButton.addEventListener('click', () => {
     if (money >= rankUpCost) {
         money -= rankUpCost;
-        multiplier *= 10485948; // Updated rank-up multiplier
+        multiplier *= 500; // Updated rank-up multiplier
         rankUpCost *= 3;
         updateDisplay();
         rankUpButton.textContent = `Rank Up (Cost: ${rankUpCost})`;
