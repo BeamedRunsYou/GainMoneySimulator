@@ -14,12 +14,81 @@ const usernameInput = document.getElementById('username');
 const gameContainer = document.getElementById('gameContainer');
 const leaderboardElement = document.getElementById('leaderboard');
 
+// Load player progress from localStorage
+function loadProgress() {
+    const savedUsername = localStorage.getItem('username');
+    const savedMoney = localStorage.getItem('money');
+    const savedMultiplier = localStorage.getItem('multiplier');
+    const savedUpgradeCost = localStorage.getItem('upgradeCost');
+    const savedRankUpCost = localStorage.getItem('rankUpCost');
+
+    if (savedUsername) username = savedUsername;
+    if (savedMoney) money = parseInt(savedMoney);
+    if (savedMultiplier) multiplier = parseInt(savedMultiplier);
+    if (savedUpgradeCost) upgradeCost = parseInt(savedUpgradeCost);
+    if (savedRankUpCost) rankUpCost = parseInt(savedRankUpCost);
+
+    updateDisplay();
+    if (username) {
+        gameContainer.style.display = 'block';
+        startGameButton.style.display = 'none';
+        usernameInput.style.display = 'none';
+    }
+}
+
+// Save player progress to localStorage
+function saveProgress() {
+    localStorage.setItem('username', username);
+    localStorage.setItem('money', money);
+    localStorage.setItem('multiplier', multiplier);
+    localStorage.setItem('upgradeCost', upgradeCost);
+    localStorage.setItem('rankUpCost', rankUpCost);
+}
+
+// Load leaderboard from localStorage
+function loadLeaderboard() {
+    const savedLeaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
+    return savedLeaderboard;
+}
+
+// Save leaderboard to localStorage
+function saveLeaderboard(leaderboard) {
+    localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
+}
+
+// Update leaderboard
+function updateLeaderboard() {
+    const leaderboard = loadLeaderboard();
+    const existingUser = leaderboard.find(entry => entry.username === username);
+
+    if (existingUser) {
+        existingUser.score = money;
+    } else {
+        leaderboard.push({ username, score: money });
+    }
+
+    leaderboard.sort((a, b) => b.score - a.score);
+    saveLeaderboard(leaderboard);
+    displayLeaderboard(leaderboard);
+}
+
+// Display leaderboard
+function displayLeaderboard(leaderboard) {
+    leaderboardElement.innerHTML = '';
+    leaderboard.forEach(entry => {
+        const li = document.createElement('li');
+        li.textContent = `${entry.username}: ${entry.score}`;
+        leaderboardElement.appendChild(li);
+    });
+}
+
 startGameButton.addEventListener('click', () => {
     username = usernameInput.value.trim();
     if (!username) {
         alert('Username is required');
         return;
     }
+    saveProgress();
     gameContainer.style.display = 'block';
     startGameButton.style.display = 'none';
     usernameInput.style.display = 'none';
@@ -28,6 +97,8 @@ startGameButton.addEventListener('click', () => {
 clickButton.addEventListener('click', () => {
     money += multiplier;
     updateDisplay();
+    saveProgress();
+    updateLeaderboard();
 });
 
 upgradeButton.addEventListener('click', () => {
@@ -37,6 +108,8 @@ upgradeButton.addEventListener('click', () => {
         upgradeCost *= 2;
         updateDisplay();
         upgradeButton.textContent = `Buy Upgrade (Cost: ${upgradeCost})`;
+        saveProgress();
+        updateLeaderboard();
     } else {
         alert('Not enough money for upgrade!');
     }
@@ -49,6 +122,8 @@ rankUpButton.addEventListener('click', () => {
         rankUpCost *= 3;
         updateDisplay();
         rankUpButton.textContent = `Rank Up (Cost: ${rankUpCost})`;
+        saveProgress();
+        updateLeaderboard();
     } else {
         alert('Not enough money to rank up!');
     }
@@ -59,35 +134,8 @@ function updateDisplay() {
     multiplierElement.textContent = multiplier;
 }
 
-// Submit score to the backend when the game ends or at certain intervals
-function submitScore() {
-    fetch('http://localhost:3000/submit-score', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username, score: money })
-    });
-}
-
-// Fetch and display leaderboard
-function fetchLeaderboard() {
-    fetch('http://localhost:3000/leaderboard')
-        .then(response => response.json())
-        .then(data => {
-            leaderboardElement.innerHTML = '';
-            data.forEach(entry => {
-                const li = document.createElement('li');
-                li.textContent = `${entry.username}: ${entry.score}`;
-                leaderboardElement.appendChild(li);
-            });
-        });
-}
-
-// Submit score every 10 seconds
-setInterval(submitScore, 10000);
-// Fetch leaderboard every 10 seconds
-setInterval(fetchLeaderboard, 10000);
-
-// Fetch leaderboard on page load
-fetchLeaderboard();
+// Load player progress and leaderboard on page load
+window.onload = () => {
+    loadProgress();
+    displayLeaderboard(loadLeaderboard());
+};
