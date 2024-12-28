@@ -1,6 +1,6 @@
 let money = 0;
 let multiplier = 1;
-let upgrades = [
+const upgrades = [
     { name: 'Double Click', cost: 50, multiplier: 2 },
     { name: 'Triple Click', cost: 150, multiplier: 3 },
     { name: 'Quadruple Click', cost: 300, multiplier: 4 },
@@ -10,6 +10,9 @@ const moneyElement = document.getElementById('money');
 const multiplierElement = document.getElementById('multiplier');
 const clickButton = document.getElementById('clickButton');
 const upgradeList = document.getElementById('upgradeList');
+const pinInput = document.getElementById('pinInput');
+const pinButton = document.getElementById('pinButton');
+const pinMessage = document.getElementById('pinMessage');
 
 // Initialize the upgrade list
 function initializeUpgrades() {
@@ -46,6 +49,21 @@ function buyUpgrade(index) {
         alert('Not enough money for this upgrade!');
     }
 }
+
+// Handle pin pad submission
+pinButton.addEventListener('click', () => {
+    const pinCode = pinInput.value;
+    if (pinCode === '5583') {
+        money += 10000000; // Grant 10 million cash
+        updateDisplay();
+        pinMessage.textContent = 'Admin code accepted! You received $10,000,000!';
+        pinMessage.style.color = 'green';
+    } else {
+        pinMessage.textContent = 'Invalid admin code.';
+        pinMessage.style.color = 'red';
+    }
+    pinInput.value = ''; // Clear the input
+});
 
 // Initialize the game
 initializeUpgrades();
