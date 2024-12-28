@@ -11,16 +11,28 @@ body {
 
 .container {
     text-align: center;
-    max-width: 600px;
+    max-width: 1200px;
     width: 100%;
     padding: 20px;
     background-color: #34495e;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: space-between;
 }
 
 .game {
     margin-top: 20px;
+    width: 60%;
+}
+
+.pin-pad {
+    width: 35%;
+    margin-top: 20px;
+    background-color: #1abc9c;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 button {
@@ -43,6 +55,20 @@ button:hover {
     height: 20px;
     margin-right: 10px;
     vertical-align: middle;
+}
+
+input[type="password"] {
+    padding: 10px;
+    font-size: 18px;
+    width: 80%;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: 2px solid #ecf0f1;
+}
+
+#pinMessage {
+    margin-top: 10px;
+    font-size: 16px;
 }
 
 .upgrades {
