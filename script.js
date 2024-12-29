@@ -4,7 +4,16 @@ const upgrades = [
     { name: 'Double Click', cost: 50, multiplier: 2 },
     { name: 'Triple Click', cost: 150, multiplier: 3 },
     { name: 'Quadruple Click', cost: 300, multiplier: 4 },
-    { name: 'Galaxy Click', cost: 500, multiplier: 50 },
+    { name: 'Quintuple Click', cost: 500, multiplier: 5 },
+    { name: 'Sextuple Click', cost: 1000, multiplier: 60 },
+    { name: 'Septuple Click', cost: 2000, multiplier: 100 },
+    { name: 'Octuple Click', cost: 4000, multiplier: 800 },
+    { name: 'Nonuple Click', cost: 8000, multiplier: 9000 },
+    { name: 'Decuple Click', cost: 16000, multiplier: 100000 },
+    { name: 'Undecuple Click', cost: 32000, multiplier: 110000 },
+    { name: 'Duodecuple Click', cost: 64000, multiplier: 120000 },
+    { name: 'Tredecuple Click', cost: 128000, multiplier: 130000 },
+    { name: 'Quattuordecuple Click', cost: 256000, multiplier: 14000000},
 ];
 
 const moneyElement = document.getElementById('money');
@@ -45,7 +54,6 @@ function buyUpgrade(index) {
         money -= upgrades[index].cost;
         multiplier *= upgrades[index].multiplier;
         updateDisplay();
-        alert(`You bought ${upgrades[index].name}!`);
     } else {
         alert('Not enough money for this upgrade!');
     }
@@ -54,7 +62,8 @@ function buyUpgrade(index) {
 // Handle pin pad submission
 pinButton.addEventListener('click', () => {
     const pinCode = pinInput.value;
-    if (pinCode === '7777' || pinCode === '4583' || pinCode === '9882') {
+    const validCodes = ['7777', '4583', '9882'];
+    if (validCodes.includes(pinCode)) {
         money += 10000000; // Grant 10 million cash
         updateDisplay();
         pinMessage.textContent = 'Admin code accepted! You received $10,000,000!';
