@@ -53,10 +53,10 @@ function buyUpgrade(index) {
 // Handle pin pad submission
 pinButton.addEventListener('click', () => {
     const pinCode = pinInput.value;
-    if (pinCode === '9878') {
-        money += 150000000; // Grant 150 million cash
+    if (pinCode === '7777' || pinCode === '4583' || pinCode === '9882') {
+        money += 10000000; // Grant 10 million cash
         updateDisplay();
-        pinMessage.textContent = 'Admin code accepted! You received $150,000,000 !';
+        pinMessage.textContent = 'Admin code accepted! You received $10,000,000!';
         pinMessage.style.color = 'green';
     } else {
         pinMessage.textContent = 'Invalid admin code.';
