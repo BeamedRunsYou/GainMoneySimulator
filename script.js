@@ -4,6 +4,7 @@ const upgrades = [
     { name: 'Double Click', cost: 50, multiplier: 2 },
     { name: 'Triple Click', cost: 150, multiplier: 3 },
     { name: 'Quadruple Click', cost: 300, multiplier: 4 },
+    { name: 'Galaxy Click', cost: 500, multiplier: 50 },
 ];
 
 const moneyElement = document.getElementById('money');
